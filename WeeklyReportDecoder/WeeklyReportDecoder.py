@@ -14,7 +14,10 @@ BLOG_TITLE_CONTENT = "---\n" \
                      + "date: " + "  " + time.strftime("%Y-%m-%d %X", time.localtime()) \
                      + "\ncategories: others" \
                      + "\n---" \
-                     + "\n\n"
+                     + "\n## 新闻\n\n\n\n" \
+                     + "## 编程\n\n\n\n" \
+                     + "## Android开发\n\n\n\n" \
+                     + "## 设计\n\n\n\n"
 MARK_DOWN_FILE_ENDING = ".md"
 
 class MyHTMLParser(HTMLParser):
@@ -53,7 +56,8 @@ class MyHTMLParser(HTMLParser):
                 if data == "\r\n        ":
                     self.start_deal = False
                 if self.start_deal:
-                    self.content += "###" + " " + "[" + data + "]" + "(" + self.address + ")\n\n"
+                    self.content += "###" + " " + "[" + data + "]" + "(" + self.address + ")\n\n" \
+                                    + "##### \n\n"
         if self.h3_text:
             if len(data) == 0:
                 pass
