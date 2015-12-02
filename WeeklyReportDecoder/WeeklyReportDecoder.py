@@ -49,7 +49,7 @@ class MyHTMLParser(HTMLParser):
 
 
 if __name__ == "__main__":
-    htmlFile = open("WeeklyReportDecoder/bookmarks.html", "r")
+    htmlFile = open("bookmarks.html", "r")
     html_code = htmlFile.read()
     hp = MyHTMLParser()
     hp.feed(html_code)
