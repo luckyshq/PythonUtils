@@ -21,40 +21,41 @@ BLOG_TITLE_CONTENT = "---\n" \
 MARK_DOWN_FILE_ENDING = ".md"
 
 class MyHTMLParser(HTMLParser):
-    a_text = False
-    h3_text = False
 
     def __init__(self):
         HTMLParser.__init__(self)
         self.links = []
         self.start_deal = False
         self.content = ""
+        self.a_text = False
+        self.h3_text = False
+
     def handle_starttag(self, tag, attrs):
-        #print "Encountered the beginning of a %s tag" % tag
         if tag == "h3":
             self.h3_text = True
             self.a_text = False
-        else:
-            if tag == "a":
-                self.a_text = True
-                self.h3_text = False
-                if len(attrs) == 0:
-                    pass
-                else:
-                    for (variable, value) in attrs:
-                        if variable == "href":
-                            if self.start_deal:
-                                self.address = value
-            else:
-                self.h3_text = False
-                self.a_text = False
-    def handle_data(self, data):
-        if self.a_text:
-            if data == "\r\n            ":
+            return
+
+        if tag == "a":
+            self.a_text = True
+            self.h3_text = False
+            if len(attrs) == 0:
                 pass
             else:
-                if data == "\r\n        ":
-                    self.start_deal = False
+                for (variable, value) in attrs:
+                    if variable == "href":
+                        if self.start_deal:
+                            self.address = value
+            return
+
+        self.a_text = False
+        self.h3_text = False
+
+    def handle_data(self, data):
+        if self.a_text:
+            if data == "\r\n            " or data == "\r\n        ":
+                pass
+            else:
                 if self.start_deal:
                     self.content += "###" + " " + "[" + data + "]" + "(" + self.address + ")\n\n" \
                                     + "##### \n\n"
@@ -65,7 +66,9 @@ class MyHTMLParser(HTMLParser):
                 if data == FOLDER_NAME:
                     self.start_deal = True
 
-
+    def handle_endtag(self, tag):
+        if tag == "dl":
+            self.start_deal = False
 
 
 if __name__ == "__main__":
@@ -80,3 +83,5 @@ if __name__ == "__main__":
     htmlFile.close()
     hp.content = BLOG_TITLE_CONTENT + hp.content
     outFile.write(hp.content)
+    print(hp.content)
+    outFile.close()
