@@ -75,7 +75,7 @@ if __name__ == "__main__":
     htmlFile = open(path.split(path.realpath(__file__))[0] + "/bookmarks.html", "r")
     if not path.exists(path.split(path.realpath(__file__))[0] + "/outputs"):
         mkdir(path.split(path.realpath(__file__))[0] + "/outputs")
-    outFile = open(path.split(path.realpath(__file__))[0] + "/outputs/" + time.strftime("%Y-%m-%d", time.localtime()) + BLOG_TITLE_NAME + MARK_DOWN_FILE_ENDING, "w")
+    outFile = open(path.split(path.realpath(__file__))[0] + "/outputs/" + time.strftime("%Y-%m-%d", time.localtime()) + "-" + BLOG_TITLE_NAME + MARK_DOWN_FILE_ENDING, "w")
     html_code = htmlFile.read()
     hp = MyHTMLParser()
     hp.feed(html_code)
